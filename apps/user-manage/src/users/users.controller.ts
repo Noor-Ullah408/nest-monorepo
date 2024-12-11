@@ -1,12 +1,22 @@
 import { Controller } from '@nestjs/common';
 import { UsersService } from './users.service';
+import {
+  CreateUserDto,
+  Empty,
+  FindOneUserDto,
+  UpdateUserDto,
+  User,
+  UserManagementServiceController,
+  UserManagementServiceControllerMethods,
+  Users,
+} from 'proto/user-manage';
 import { Observable } from 'rxjs';
-import { User } from '@prisma/client';
-import { CreateUserDto, FindOneUserDto, UpdateUserDto } from '../dto/user.dto';
+
 @Controller('users')
-export class UsersController {
+@UserManagementServiceControllerMethods()
+export class UsersController implements UserManagementServiceController {
   constructor(private readonly usersService: UsersService) {}
-  findAllUsers(): Observable<User[]> | Promise<User[]> {
+  findAllUsers(request: Empty): Observable<Users> | Promise<Users> {
     const users = this.usersService.findAllUsers();
     return users;
   }
